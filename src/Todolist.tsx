@@ -1,3 +1,5 @@
+import { Button, Checkbox, IconButton } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
 import React, { ChangeEvent } from 'react';
 import { AddItemForm } from './AddItemForm';
 import { EditableSpan } from './EditableSpan';
@@ -35,36 +37,67 @@ function TodoList(props: TodoListPropsType) {
     const addItem=(title:string)=>props.addTasks(title,props.id)
     const changeTodoListTitle=(newTitle:string)=>props.changeTodoListTitle(newTitle,props.id)
     return (
+      <div>
+        <h3>
+          <EditableSpan title={props.title} onChange={changeTodoListTitle} />
+          <IconButton onClick={onClickRemoveTodoList}>
+            <Delete />
+          </IconButton>
+        </h3>
+        <AddItemForm addItem={addItem} />
         <div>
-            <h3><EditableSpan title={props.title} onChange={changeTodoListTitle}/><button onClick={onClickRemoveTodoList}>X</button></h3>
-            <AddItemForm addItem={addItem}/>
-            <ul>
-                {
-                    props.tasks.map(t => {
-                        const onRemoveHandler = () => props.removeTask(t.id,props.id)
-                        const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            props.changeTaskStatus(t.id, e.currentTarget.checked,props.id)
-                        }
-                        const onChangeTitleHandler=(newTitle:string)=>{
-                            props.changeTaskTitle(t.id,newTitle,props.id)
-                        }
-                        return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                            <input type="checkbox"
-                                checked={t.isDone}
-                                onChange={onChangeStatusHandler} />
-                                <EditableSpan onChange={onChangeTitleHandler} title={t.title}/>
-                            <button onClick={onRemoveHandler}>x</button>
-                        </li>
-                    })
-                }
-            </ul>
-            <div>
-                <button className={props.filter === 'all' ? 'active-filter' : ''} onClick={onClickAllHandler}>All</button>
-                <button className={props.filter === 'active' ? 'active-filter' : ''} onClick={onClickActiveHandler}>Active</button>
-                <button className={props.filter === 'completed' ? 'active-filter' : ''} onClick={onClicCompletedHandler}>Completed</button>
-            </div>
+          {props.tasks.map((t) => {
+            const onRemoveHandler = () => props.removeTask(t.id, props.id);
+            const onChangeStatusHandler = (
+              e: ChangeEvent<HTMLInputElement>
+            ) => {
+              props.changeTaskStatus(t.id, e.currentTarget.checked, props.id);
+            };
+            const onChangeTitleHandler = (newTitle: string) => {
+              props.changeTaskTitle(t.id, newTitle, props.id);
+            };
+            return (
+              <div key={t.id} style={{fontSize: '19px'}}>
+                <Checkbox
+                  color='primary'
+                  checked={t.isDone}
+                  onChange={onChangeStatusHandler}
+                />
+                <EditableSpan onChange={onChangeTitleHandler} title={t.title} isDone={t.isDone}/>
+                <IconButton onClick={onRemoveHandler}>
+                  <Delete/>
+                </IconButton>
+              </div>
+            );
+          })}
         </div>
-    )
+        <div>
+          <Button
+            size='small'
+            variant={props.filter === "all" ? "contained" : "text"}
+            onClick={onClickAllHandler}
+            color='default'
+          >
+            All
+          </Button>
+          <Button
+            style={{margin:'0 5px'}}
+            size='small'
+            variant={props.filter === "active" ? "contained" : "text"}
+            onClick={onClickActiveHandler}
+            color='primary'>
+            Active
+          </Button>
+          <Button
+            size='small'
+            variant={props.filter === "completed" ? "contained" : "text"}
+            onClick={onClicCompletedHandler}
+            color='secondary'>
+            Completed
+          </Button>
+        </div>
+      </div>
+    );
 }
 export default TodoList;
 
