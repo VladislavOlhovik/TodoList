@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import TodoList, { filtersValueType, TodoListType, TaskType } from './Todolist';
+import TodoList, { filtersValueType, TodolistType, TaskType } from './Todolist';
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
@@ -13,12 +13,10 @@ type TaskStateType = {
 function App() {
     let todoListId1 = v1()
     let todoListId2 = v1()
-    let todoListId3 = v1()
 
-    let [todoLists, setTodoLists] = useState<Array<TodoListType>>([
+    let [todoLists, setTodoLists] = useState<Array<TodolistType>>([
         { id: todoListId1, title: 'What to learn', filter: 'all' },
-        { id: todoListId2, title: 'What to buy', filter: 'all' },
-        { id: todoListId3, title: 'What to buy', filter: 'all' }
+        { id: todoListId2, title: 'What to buy', filter: 'all' }
     ])
 
     let [tasks1, setTasks1] = useState<TaskStateType>({
@@ -35,10 +33,6 @@ function App() {
             { id: v1(), title: 'ReackJS', isDone: false },
             { id: v1(), title: 'rest api', isDone: false },
             { id: v1(), title: 'graphQL', isDone: false }
-        ],
-        [todoListId3]: [
-            { id: v1(), title: 'Book', isDone: true },
-            { id: v1(), title: 'Milk', isDone: true }
         ]
     })
 
@@ -74,7 +68,7 @@ function App() {
         setTasks1({...tasks1})
     }
     function addTodoList (title:string){
-        let newTodoList:TodoListType={
+        let newTodoList:TodolistType={
             id:v1(),
             title:title,
             filter:'all'
