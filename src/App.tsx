@@ -6,7 +6,7 @@ import { AddItemForm } from './AddItemForm';
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 
-type TaskStateType = {
+export type TasksStateType = {
     [key:string]:Array<TaskType>
 }
 
@@ -19,7 +19,7 @@ function App() {
         { id: todoListId2, title: 'What to buy', filter: 'all' }
     ])
 
-    let [tasks1, setTasks1] = useState<TaskStateType>({
+    let [tasks1, setTasks1] = useState<TasksStateType>({
         [todoListId1]: [
             { id: v1(), title: 'HTML&CSS', isDone: true },
             { id: v1(), title: 'JS', isDone: true },
@@ -40,6 +40,7 @@ function App() {
         let todoListTasks = tasks1[todolistId]
         const newTask = { id: v1(), title: title, isDone: false }
         tasks1[todolistId] = [newTask, ...todoListTasks]
+        changeFilter("all", todolistId)
         setTasks1({ ...tasks1 })
     }
     function removeTask(id: string, todolistId: string) {
@@ -56,7 +57,7 @@ function App() {
         }
     }
     function changeFilter(value: filtersValueType, todolistId: string) {
-        let todoList = todoLists.find((el) => el.id == todolistId)
+        let todoList = todoLists.find((el) => el.id === todolistId)
         if (todoList) {
             todoList.filter = value
             setTodoLists([...todoLists])
