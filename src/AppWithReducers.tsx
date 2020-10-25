@@ -20,7 +20,7 @@ function AppWithReducers() {
         { id: todoListId1, title: 'What to learn', filter: 'all' },
         { id: todoListId2, title: 'What to buy', filter: 'all' }
     ])
-
+ 
     let [tasks1, dispatchToTasks1] = useReducer(tasksReducer,{
         [todoListId1]: [
             { id: v1(), title: 'HTML&CSS', isDone: true },
@@ -53,9 +53,12 @@ function AppWithReducers() {
     }
     function removeTodolist(todolistId: string) {
         dispatchToTodoLists(RemoveTodolistAC(todolistId))
+        dispatchToTasks1(RemoveTodolistAC(todolistId))
     }
     function addTodoList (title:string){
-        dispatchToTasks1(AddTodolistAC(title))
+      const action = AddTodolistAC(title)
+        dispatchToTodoLists(action)
+        dispatchToTasks1(action)
     }
     function changeTaskTitle(id: string, newTitile:string, todolistdId:string){
         dispatchToTasks1(changeTaskTitleAC(id,newTitile,todolistdId))
