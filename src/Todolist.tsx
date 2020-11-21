@@ -2,7 +2,9 @@ import { Button,  IconButton } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import React, { useCallback } from 'react';
 import { AddItemForm } from './AddItemForm';
+import { TaskStatuses, TaskType } from './api/todolist-api';
 import { EditableSpan } from './EditableSpan';
+import { filtersValueType } from './state/todolists-reducer';
 import { Task } from './Task';
 
 export type TodoListPropsType = {
@@ -10,7 +12,7 @@ export type TodoListPropsType = {
     title: string
     tasks: Array<TaskType>
     removeTask: (id: string, todolistdId:string) => void
-    changeTaskStatus: (id: string, isDone: boolean,todolistdId:string) => void
+    changeTaskStatus: (id: string, status: TaskStatuses,todolistdId:string) => void
     changeTaskTitle:(id: string, newTitile:string, todolistdId:string)=>void
     changeFilter: (value: filtersValueType,todolistdId:string) => void
     addTasks: (title: string,todolistdId:string) => void
@@ -18,26 +20,15 @@ export type TodoListPropsType = {
     removeTodolist:(todolistdId:string)=>void
     changeTodoListTitle:(newTitile:string, todolistdId:string)=>void
 }
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-export type TodolistType = {
-    id: string
-    title: string
-    filter: filtersValueType
-}
-export type filtersValueType = 'all' | 'active' | 'completed'
 
 const TodoList = React.memo((props: TodoListPropsType) => {
   console.log('TodoList');
   let tasksForTodolist = props.tasks
   if (props.filter === "active") {
-    tasksForTodolist = props.tasks.filter((r) => !r.isDone);
+    tasksForTodolist = props.tasks.filter((r) => r.status===TaskStatuses.New);
   }
   if (props.filter === "completed") {
-    tasksForTodolist = props.tasks.filter((r) => r.isDone);
+    tasksForTodolist = props.tasks.filter((r) => r.status===TaskStatuses.Completed);
   }
     const onClickAllHandler = useCallback(() => props.changeFilter('all',props.id), [props.id, props.changeFilter])
     const onClickActiveHandler = useCallback(() => props.changeFilter('active',props.id), [props.id, props.changeFilter])
