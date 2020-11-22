@@ -6,7 +6,7 @@ import { AddItemForm } from './AddItemForm';
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { AddTodolistAC, ChangeTodolistTitleAC, RemoveTodolistAC, todolistsReducer, ChangeTodolistFilterAC, filtersValueType } from './state/todolists-reducer';
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from './state/tasks-reducer';
+import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from './state/tasks-reducer';
 import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api';
 
 export type TasksStateType = {
@@ -38,14 +38,15 @@ function AppWithReducers() {
     })
 
     function addTasks(title: string, todolistId: string) {
-        dispatchToTasks1(addTaskAC(title,todolistId))
+        dispatchToTasks1(addTaskAC({id: v1(), title, status: TaskStatuses.New, todoListId: todoListId2, description: '', 
+        startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}))
         changeFilter("all", todolistId)
     }
     function removeTask(id: string, todolistId: string) {
         dispatchToTasks1(removeTaskAC(id,todolistId))
     }
     function changeStatus(id: string, status: TaskStatuses, todolistId: string) {
-        dispatchToTasks1(changeTaskStatusAC(id, status, todolistId))
+        dispatchToTasks1(updateTaskAC(id, {status}, todolistId))
     }
     function changeFilter(value: filtersValueType, todolistId: string) {
         dispatchToTodoLists(ChangeTodolistFilterAC(todolistId,value))
@@ -55,12 +56,12 @@ function AppWithReducers() {
         dispatchToTasks1(RemoveTodolistAC(todolistId))
     }
     function addTodoList (title:string){
-      const action = AddTodolistAC(title)
+      const action = AddTodolistAC({ id: 'todoListId2', title, addedDate:'', order:0 })
         dispatchToTodoLists(action)
         dispatchToTasks1(action)
     }
     function changeTaskTitle(id: string, newTitile:string, todolistdId:string){
-        dispatchToTasks1(changeTaskTitleAC(id,newTitile,todolistdId))
+        dispatchToTasks1(updateTaskAC(id, { title:newTitile }, todolistdId))
     }
     function changeTodoListTitle(newTitile:string, todolistdId:string){
         dispatchToTodoLists(ChangeTodolistTitleAC(todolistdId,newTitile))

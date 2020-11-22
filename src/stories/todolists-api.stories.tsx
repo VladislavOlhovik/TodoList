@@ -150,7 +150,7 @@ export const UpdateTaskTitle = () => {
     
     const updateTaskTitle = () => {
       todolistAPI
-        .updateTaskTitle(todlistId, taskId, {
+        .updateTask(todlistId, taskId, {
             title: title,
             description: description,
             status: status,
