@@ -1,7 +1,7 @@
-import { TaskStatuses, TaskPriorities } from './../api/todolist-api';
+import { TaskStatuses, TaskPriorities } from '../../api/todolist-api';
 import { AddTodolistAC } from './todolists-reducer';
 import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from './tasks-reducer';
-import {TasksStateType} from '../App';
+import {TasksStateType} from '../../app/App';
 let startState: TasksStateType
 
 beforeEach(()=>{
