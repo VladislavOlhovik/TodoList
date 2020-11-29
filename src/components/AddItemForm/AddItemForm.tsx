@@ -4,6 +4,7 @@ import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 
 export type AddItemFormPropsType={
     addItem:(title:string)=>void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props:AddItemFormPropsType) => {
@@ -27,17 +28,21 @@ export const AddItemForm = React.memo((props:AddItemFormPropsType) => {
             setError('Title is required')
         }
     }
-    return <div>
-    <TextField
-        variant='outlined'
-        value={newTasktitle}
-        onChange={onChangeHandler}
-        onKeyPress={onKeyPressHandler}
-        label='Title'
-        helperText={error}
-        error={!!error} />
-    <IconButton color='primary' onClick={buttonAddItem}>
-        <LibraryAdd fontSize='large'/>
-    </IconButton>
-</div>
+    return (
+      <div>
+        <TextField
+          disabled={props.disabled}
+          variant="outlined"
+          value={newTasktitle}
+          onChange={onChangeHandler}
+          onKeyPress={onKeyPressHandler}
+          label="Title"
+          helperText={error}
+          error={!!error}
+        />
+        <IconButton color="primary" onClick={buttonAddItem} disabled={props.disabled}>
+          <LibraryAdd fontSize="large" />
+        </IconButton>
+      </div>
+    );
 })

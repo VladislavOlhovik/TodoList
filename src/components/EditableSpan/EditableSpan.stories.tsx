@@ -13,6 +13,7 @@ const Template: Story<EditableSpanPropsType> = (args) => <EditableSpan {...args}
 
 export const BaseExample = Template.bind({});
 BaseExample.args = {
+    disabled:false,
     isDone:false,
     title:'React',
     onChange:action('title inside form clicked'),

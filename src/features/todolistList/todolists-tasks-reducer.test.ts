@@ -22,19 +22,19 @@ test('ids should be equals', () => {
  test('property with todolistId should be deleted', () => {
     const startState: TasksStateType = {
         "todolistId1": [
-            { id: "1", title: "CSS", status: TaskStatuses.New, todoListId: 'todoListId1', description: '', 
+            { id: "1", entityStatus: 'idle', title: "CSS", status: TaskStatuses.New, todoListId: 'todoListId1', description: '', 
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-            { id: "2", title: "JS", status: TaskStatuses.Completed, todoListId: 'todoListId1', description: '', 
+            { id: "2", entityStatus: 'idle', title: "JS", status: TaskStatuses.Completed, todoListId: 'todoListId1', description: '', 
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-            { id: "3", title: "React", status: TaskStatuses.New, todoListId: 'todoListId1', description: '', 
+            { id: "3", entityStatus: 'idle', title: "React", status: TaskStatuses.New, todoListId: 'todoListId1', description: '', 
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
         ],
         "todolistId2": [
-            { id: "1", title: "bread", status: TaskStatuses.New, todoListId: 'todoListId2', description: '', 
+            { id: "1", entityStatus: 'idle', title: "bread", status: TaskStatuses.New, todoListId: 'todoListId2', description: '', 
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-            { id: "2", title: "milk", status: TaskStatuses.Completed, todoListId: 'todoListId2', description: '', 
+            { id: "2", entityStatus: 'idle', title: "milk", status: TaskStatuses.Completed, todoListId: 'todoListId2', description: '', 
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
-            { id: "3", title: "tea", status: TaskStatuses.New, todoListId: 'todoListId2', description: '', 
+            { id: "3", entityStatus: 'idle', title: "tea", status: TaskStatuses.New, todoListId: 'todoListId2', description: '', 
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
         ]
     };

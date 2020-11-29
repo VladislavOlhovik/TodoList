@@ -26,14 +26,14 @@ const baseArgs = {
 export const isNotCompletedTask = Template.bind({});
 isNotCompletedTask.args = {
   id:'todoListId1',
-  task: {id:'1',title:'CSS',status: TaskStatuses.Completed, todoListId: 'todoListId1', description: '', 
+  task: {id:'1',entityStatus: 'idle',title:'CSS',status: TaskStatuses.Completed, todoListId: 'todoListId1', description: '', 
   startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
   ...baseArgs,
 };
 export const CompletedTask = Template.bind({});
 CompletedTask.args = {
   id:'todoListId2',
-  task: {id:'1',title:'JS', status: TaskStatuses.New, todoListId: 'todoListId1', description: '', 
+  task: {id:'1',entityStatus: 'idle',title:'JS', status: TaskStatuses.New, todoListId: 'todoListId1', description: '', 
   startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
   ...baseArgs,
 };
