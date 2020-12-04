@@ -31,7 +31,11 @@ const initialGlobalState = {
   app:{
     status: 'idle',
     error: null,
+    isInitialazed: true,
   },
+  auth:{
+    isLoggedIn: false
+  }
 };
 const rootReducer = combineReducers({
   todoLists: todolistsReducer,

@@ -10,6 +10,17 @@ const instance = Axios.create({
 })
 
 // API
+export const authAPI = {
+    me(){
+        return instance.get<ResponseType<{id: number, email: string, login: string}>>('auth/me')
+    },
+    login(data: LoginParamsType){
+        return instance.post<ResponseType<{userId: number}>>('auth/login', data)
+    },
+    logout(){
+        return instance.delete<ResponseType>('auth/login')
+    },
+}
 export const todolistAPI = {
     getTodolists(){
         return instance.get<TodolistType[]>('todo-lists')
@@ -95,4 +106,10 @@ export type UpdateModelType = {
     priority?: number
     startDate?: string
     deadline?: string
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
 }

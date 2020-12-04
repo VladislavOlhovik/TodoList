@@ -1,6 +1,7 @@
 import { Grid, Paper } from "@material-ui/core";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { TaskStatuses } from "../../api/todolist-api";
 import { AppRootStateType } from "../../app/store";
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
@@ -20,7 +21,11 @@ export const TodolistList: React.FC = () => {
   const { todoLists, tasks1 } = useSelector<AppRootStateType, AppRootStateType>(
     (state) => state
   );
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state=>state.auth.isLoggedIn)
   useEffect(() => {
+    if(!isLoggedIn){
+      return
+    }
     dispatch(fetchTodolists());
   }, []);
 
@@ -73,6 +78,10 @@ export const TodolistList: React.FC = () => {
     },
     [dispatch]
   );
+
+  if (!isLoggedIn) {
+    return <Redirect to={"/login"} />;
+  }
 
   return (
     <>
