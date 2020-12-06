@@ -6,14 +6,15 @@ import { loginTC } from './auth-reducer';
 import { AppRootStateType } from '../../app/store'
 import { Redirect } from 'react-router-dom';
 
+type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+ }
+
 export const Login = () => {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state=>state.auth.isLoggedIn)
-    type FormikErrorType = {
-        email?: string
-        password?: string
-        rememberMe?: boolean
-     }
      
     const formik = useFormik({
       initialValues: {
@@ -32,6 +33,8 @@ export const Login = () => {
         }
         if(!values.password){
             errors.password = "Required";
+        } else if (values.password.length<4){
+            errors.password = "Invalid password. Min length 4 symbol";
         }
         return errors;
       },
@@ -40,7 +43,7 @@ export const Login = () => {
       },
     });
     if(isLoggedIn){
-        return <Redirect to={'/'}/>
+        return <Redirect to={'/TodoList'}/>
     }
    return (
      <Grid container justify="center">
@@ -67,14 +70,18 @@ export const Login = () => {
                  margin="normal"
                  {...formik.getFieldProps("email")}
                />
-               {formik.errors.email?<div style={{color:'red'}}>{formik.errors.email}</div>:null}
+               {formik.touched.email&&formik.errors.email
+               ?<div style={{color:'red'}}>{formik.errors.email}</div>
+               :null}
                <TextField
                  type="password"
                  label="Password"
                  margin="normal"
                  {...formik.getFieldProps("password")}
                />
-               {formik.errors.password?<div style={{color:'red'}}>{formik.errors.password}</div>:null}
+               {formik.touched.password&&formik.errors.password
+               ?<div style={{color:'red'}}>{formik.errors.password}</div>
+               :null}
                <FormControlLabel
                  label={"Remember me"}
                  control={<Checkbox {...formik.getFieldProps("rememberMe")} />}

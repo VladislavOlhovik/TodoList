@@ -1,3 +1,4 @@
+import { setLoginNameAC, SetLoginNameType, initialazedTC, SetInitialazedType, setInitialazedAC } from './../../app/app-reducer';
 import { handleServerAppError, handleServerNetworkError } from './../../utils/error-utils';
 import { authAPI, LoginParamsType } from './../../api/todolist-api';
 import { Dispatch } from 'redux'
@@ -21,12 +22,14 @@ export const setIsLoggedInAC = (value: boolean) =>
 
 // thunks
 export const loginTC = (data: LoginParamsType) => async (dispatch: DispatchType) => {
-    dispatch(setAppStatusAC('loading'))
+        dispatch(setInitialazedAC(false))
     try {
         let res = await authAPI.login(data)
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC(true))
-            dispatch(setAppStatusAC('succeeded'))
+            let data = await authAPI.me()
+            dispatch(setLoginNameAC(data.data.data.login))
+            dispatch(setInitialazedAC(true))
         } else {
             handleServerAppError(res.data, dispatch)
         }
@@ -39,6 +42,7 @@ export const logoutTC = () => async (dispatch: DispatchType) => {
     try {
         let res = await authAPI.logout()
         if (res.data.resultCode === 0) {
+            dispatch(setLoginNameAC('you are not logged in'))
             dispatch(setIsLoggedInAC(false))
             dispatch(setAppStatusAC('succeeded'))
         } else {
@@ -52,6 +56,11 @@ export const logoutTC = () => async (dispatch: DispatchType) => {
 // types
 type ActionsType = SetIsLoggedInType
 export type SetIsLoggedInType = ReturnType<typeof setIsLoggedInAC>
-type DispatchType = Dispatch<SetIsLoggedInType | SetAppStatusType | SetAppErrorType>
+type DispatchType = Dispatch<
+| SetIsLoggedInType 
+| SetAppStatusType 
+| SetAppErrorType 
+| SetInitialazedType 
+| SetLoginNameType>
 type InitialStateType = typeof initialState
 

@@ -14,12 +14,16 @@ import { logoutTC } from '../features/login/auth-reducer';
 
 export type TasksStateType = {
     [key:string]:Array<TaskDomainType>
+} 
+type AppPropsType = {
+  demo?: boolean
 }
 
-function AppWithRedux() {
+function AppWithRedux({demo = false}: AppPropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>(state=>state.app.status)    
     const isInitialazed = useSelector<AppRootStateType, boolean>(state=>state.app.isInitialazed)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state=>state.auth.isLoggedIn)
+    const login = useSelector<AppRootStateType, string|null>(state=>state.app.login)
     const dispatch = useDispatch()
 
     const logout = () => {
@@ -51,7 +55,7 @@ function AppWithRedux() {
             <IconButton edge="start" color="inherit" aria-label="menu">
               <Menu />
             </IconButton>
-            <Typography variant="h6">News</Typography>
+            <Typography variant="h6">{login}</Typography>
             {isLoggedIn&&<Button color="inherit" onClick={logout}>Log out</Button>}
           </Toolbar>
           <div style={{height:'4px'}}>
@@ -60,7 +64,7 @@ function AppWithRedux() {
         </AppBar>
         <Container fixed>
           <Switch>
-            <Route exact path = {'/'} render={() => <TodolistList/>} />
+            <Route exact path = {'/TodoList'} render={() => <TodolistList demo={demo}/>} />
             <Route path = {'/login'} render={() => <Login/>} />
             <Route path={ '/404' } render={ () => <h1>404: PAGE NOT FOUND</h1> }/>
             <Redirect from={ '*' } to={ '/404' }/>

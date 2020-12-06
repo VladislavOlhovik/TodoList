@@ -7,6 +7,7 @@ import { RequestStatusType, SetAppErrorType, setAppStatusAC, SetAppStatusType } 
 import { handleServerAppError, handleServerNetworkError } from '../../utils/error-utils';
 
 export const tasksReducer = (state: TasksStateType = {}, action: ActionType): TasksStateType => {
+    debugger
     switch (action.type) {
         case 'REMOVE-TASK':
             return { ...state, [action.todolistId]: state[action.todolistId].filter(el => el.id !== action.taskId) }

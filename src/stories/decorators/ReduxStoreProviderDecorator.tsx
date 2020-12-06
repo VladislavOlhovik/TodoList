@@ -32,6 +32,7 @@ const initialGlobalState = {
     status: 'idle',
     error: null,
     isInitialazed: true,
+    login: 'you are not logged in',
   },
   auth:{
     isLoggedIn: false

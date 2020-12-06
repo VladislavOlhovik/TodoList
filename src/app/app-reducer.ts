@@ -7,6 +7,7 @@ const initialState: InitialStateType = {
     status: 'idle',
     error: null,
     isInitialazed: false,
+    login: 'you are not logged in',
 }
 
 export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -17,6 +18,8 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return { ...state, error: action.error }
         case 'APP/SET-INITIALAZED':
             return { ...state, isInitialazed: action.isInitialazed }
+        case 'APP/SET-LOGINNAME':
+            return { ...state, login: action.login }
        default:
             return state
     }
@@ -26,16 +29,16 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 export const setAppStatusAC = (status:RequestStatusType) => ({type:'APP/SET-STATUS',status} as const)
 export const setAppErrorAC = (error: string|null) => ({type:'APP/SET-ERROR',error} as const)
 export const setInitialazedAC = (isInitialazed: boolean) => ({type:'APP/SET-INITIALAZED', isInitialazed} as const)
+export const setLoginNameAC = ( login: string ) => ({type:'APP/SET-LOGINNAME',  login} as const)
 
 // thunks
 export const initialazedTC = () => async (dispatch: DispatchType) => {
-    dispatch(setAppStatusAC('loading'))
     try {
         let res = await authAPI.me()
         dispatch(setInitialazedAC(true))
         if(res.data.resultCode === 0){
+            dispatch(setLoginNameAC(res.data.data.login))
             dispatch(setIsLoggedInAC(true))
-            dispatch(setAppStatusAC('succeeded'))
         } else {
             handleServerAppError(res.data, dispatch)
         }
@@ -48,10 +51,12 @@ export const initialazedTC = () => async (dispatch: DispatchType) => {
 export type SetAppStatusType = ReturnType<typeof setAppStatusAC>
 export type SetAppErrorType = ReturnType<typeof setAppErrorAC>
 export type SetInitialazedType = ReturnType<typeof setInitialazedAC>
+export type SetLoginNameType = ReturnType<typeof setLoginNameAC>
 type ActionsType = 
     | SetAppStatusType
     | SetAppErrorType
     | SetInitialazedType
+    | SetLoginNameType
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -59,5 +64,6 @@ type InitialStateType = {
        status: RequestStatusType
        error: string|null
        isInitialazed: boolean
+       login: string
     }
-type DispatchType = Dispatch<SetInitialazedType | SetAppStatusType | SetAppErrorType | SetIsLoggedInType>
+type DispatchType = Dispatch<SetInitialazedType | SetAppStatusType | SetAppErrorType | SetIsLoggedInType | SetLoginNameType>

@@ -16,14 +16,18 @@ import {
   updateTodolist,
 } from "./todolists-reducer";
 
-export const TodolistList: React.FC = () => {
+type TodoPropsType = {
+  demo?: boolean
+}
+
+export const TodolistList: React.FC<TodoPropsType> = ({demo = false}) => {
   const dispatch = useDispatch();
   const { todoLists, tasks1 } = useSelector<AppRootStateType, AppRootStateType>(
     (state) => state
   );
   const isLoggedIn = useSelector<AppRootStateType, boolean>(state=>state.auth.isLoggedIn)
   useEffect(() => {
-    if(!isLoggedIn){
+    if(demo||!isLoggedIn){
       return
     }
     dispatch(fetchTodolists());
