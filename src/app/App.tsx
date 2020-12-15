@@ -18,12 +18,15 @@ export type TasksStateType = {
 type AppPropsType = {
   demo?: boolean
 }
+type appStateType = {
+  login:string|null 
+  status: RequestStatusType 
+  isInitialazed: boolean
+}
 
 function AppWithRedux({demo = false}: AppPropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>(state=>state.app.status)    
-    const isInitialazed = useSelector<AppRootStateType, boolean>(state=>state.app.isInitialazed)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state=>state.auth.isLoggedIn)
-    const login = useSelector<AppRootStateType, string|null>(state=>state.app.login)
+    const { login, status, isInitialazed } = useSelector<AppRootStateType, appStateType>(state=>state.app)
     const dispatch = useDispatch()
 
     const logout = () => {

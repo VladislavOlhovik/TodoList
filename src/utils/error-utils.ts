@@ -5,16 +5,16 @@ import { setAppErrorAC, SetAppErrorType, setAppStatusAC, SetAppStatusType } from
 
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
     if(data.messages.length){
-        dispatch(setAppErrorAC(data.messages[0]))
+        dispatch(setAppErrorAC({error: data.messages[0]}))
     } else {
-        dispatch(setAppErrorAC('Some ERROR'))
+        dispatch(setAppErrorAC({error: 'Some ERROR'}))
     }
-    dispatch(setAppStatusAC('failed'))
+    dispatch(setAppStatusAC({status:'failed'}))
 }
 
 export const handleServerNetworkError = (error:{message:string}, dispatch: ErrorUtilsDispatchType) => {
-    dispatch(setAppStatusAC('failed'))
-    dispatch(setAppErrorAC(error.message))
+    dispatch(setAppStatusAC({status:'failed'}))
+    dispatch(setAppErrorAC({error: error.message?error.message:'Some error'}))
 }
 
 type ErrorUtilsDispatchType = Dispatch<SetAppErrorType | SetAppStatusType>

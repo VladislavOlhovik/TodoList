@@ -1,3 +1,4 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { setIsLoggedInAC, SetIsLoggedInType } from './../features/login/auth-reducer';
 import { handleServerAppError, handleServerNetworkError } from './../utils/error-utils';
 import { authAPI } from './../api/todolist-api';
@@ -10,35 +11,38 @@ const initialState: InitialStateType = {
     login: 'you are not logged in',
 }
 
-export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-            return { ...state, status: action.status }
-        case 'APP/SET-ERROR':
-            return { ...state, error: action.error }
-        case 'APP/SET-INITIALAZED':
-            return { ...state, isInitialazed: action.isInitialazed }
-        case 'APP/SET-LOGINNAME':
-            return { ...state, login: action.login }
-       default:
-            return state
+const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {
+        setAppStatusAC(state, action: PayloadAction<{status:RequestStatusType}>){
+            state.status = action.payload.status
+        },
+        setAppErrorAC(state, action: PayloadAction<{error: string|null}>){
+            state.error = action.payload.error
+        },
+        setInitialazedAC(state, action: PayloadAction<{isInitialazed: boolean}>){
+            state.isInitialazed = action.payload.isInitialazed
+        },
+        setLoginNameAC(state, action: PayloadAction<{login: string}>){
+            state.login = action.payload.login
+        },
     }
-}
+})
+
+export const appReducer = slice.reducer
 
 // actions
-export const setAppStatusAC = (status:RequestStatusType) => ({type:'APP/SET-STATUS',status} as const)
-export const setAppErrorAC = (error: string|null) => ({type:'APP/SET-ERROR',error} as const)
-export const setInitialazedAC = (isInitialazed: boolean) => ({type:'APP/SET-INITIALAZED', isInitialazed} as const)
-export const setLoginNameAC = ( login: string ) => ({type:'APP/SET-LOGINNAME',  login} as const)
+export const { setAppStatusAC, setAppErrorAC, setInitialazedAC, setLoginNameAC } = slice.actions
 
 // thunks
 export const initialazedTC = () => async (dispatch: DispatchType) => {
     try {
         let res = await authAPI.me()
-        dispatch(setInitialazedAC(true))
+        dispatch(setInitialazedAC({ isInitialazed: true }))
         if(res.data.resultCode === 0){
-            dispatch(setLoginNameAC(res.data.data.login))
-            dispatch(setIsLoggedInAC(true))
+            dispatch(setLoginNameAC({ login:res.data.data.login }))
+            dispatch(setIsLoggedInAC({ value:true }))
         } else {
             handleServerAppError(res.data, dispatch)
         }
@@ -52,11 +56,6 @@ export type SetAppStatusType = ReturnType<typeof setAppStatusAC>
 export type SetAppErrorType = ReturnType<typeof setAppErrorAC>
 export type SetInitialazedType = ReturnType<typeof setInitialazedAC>
 export type SetLoginNameType = ReturnType<typeof setLoginNameAC>
-type ActionsType = 
-    | SetAppStatusType
-    | SetAppErrorType
-    | SetInitialazedType
-    | SetLoginNameType
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
