@@ -13,7 +13,7 @@ const slice = createSlice({
     reducers: {
         RemoveTodolistAC:(state, action: PayloadAction<{ todolistId: string }>)=>{
             const index = state.findIndex(tl=>tl.id===action.payload.todolistId)
-            delete state[index]
+            state.splice(index,1)
         },
         AddTodolistAC:(state, action: PayloadAction<{ todolist: TodolistType }>)=>{
             state.unshift({ ...action.payload.todolist, filter:"all", entityStatus: 'idle'})

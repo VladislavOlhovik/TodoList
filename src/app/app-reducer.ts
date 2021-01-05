@@ -59,7 +59,7 @@ export type SetLoginNameType = ReturnType<typeof setLoginNameAC>
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-type InitialStateType = {
+export type InitialStateType = {
        status: RequestStatusType
        error: string|null
        isInitialazed: boolean

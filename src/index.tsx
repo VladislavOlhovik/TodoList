@@ -5,14 +5,14 @@ import AppWithRedux from "./app/App";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import { store } from "./app/store";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <HashRouter>
     <Provider store={store}>
       <AppWithRedux />
     </Provider>
-  </BrowserRouter>,
+  </HashRouter>,
   document.getElementById("root")
 );
 

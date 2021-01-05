@@ -34,7 +34,7 @@ function AppWithRedux({demo = false}: AppPropsType) {
     }
 
     useEffect(()=>{
-      dispatch(initialazedTC())
+      !demo && dispatch(initialazedTC())
     },[])
     if (!isInitialazed) {
       return (
@@ -67,7 +67,7 @@ function AppWithRedux({demo = false}: AppPropsType) {
         </AppBar>
         <Container fixed>
           <Switch>
-            <Route exact path = {'/TodoList'} render={() => <TodolistList demo={demo}/>} />
+            <Route exact path = {'/'} render={() => <TodolistList demo={demo}/>} />
             <Route path = {'/login'} render={() => <Login/>} />
             <Route path={ '/404' } render={ () => <h1>404: PAGE NOT FOUND</h1> }/>
             <Redirect from={ '*' } to={ '/404' }/>

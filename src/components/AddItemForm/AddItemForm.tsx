@@ -5,9 +5,10 @@ import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 export type AddItemFormPropsType={
     addItem:(title:string)=>void
     disabled?: boolean
+    title?: string
 }
 
-export const AddItemForm = React.memo((props:AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({title = 'Title', ...props}:AddItemFormPropsType) => {
     console.log('AddItemForm');
     let [newTasktitle, setnewTasktitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -36,7 +37,7 @@ export const AddItemForm = React.memo((props:AddItemFormPropsType) => {
           value={newTasktitle}
           onChange={onChangeHandler}
           onKeyPress={onKeyPressHandler}
-          label="Title"
+          label={title}
           helperText={error}
           error={!!error}
         />

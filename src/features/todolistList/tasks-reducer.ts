@@ -16,8 +16,7 @@ const slice = createSlice({
         removeTaskAC: (state, action: PayloadAction<{ taskId: string, todolistId: string }>) => {
             const tasks = state[action.payload.todolistId]
             const index = tasks.findIndex(t=>t.id===action.payload.taskId)
-            delete tasks[index]
-            // { ...state, [action.todolistId]: state[action.todolistId].filter(el => el.id !== action.taskId) }
+            tasks.splice(index, 1)  
         },
         addTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
             state[action.payload.task.todoListId].push({...action.payload.task, entityStatus: 'idle'})

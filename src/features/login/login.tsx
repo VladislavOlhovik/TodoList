@@ -43,7 +43,7 @@ export const Login = () => {
       },
     });
     if(isLoggedIn){
-        return <Redirect to={'/TodoList'}/>
+        return <Redirect to={'/'}/>
     }
    return (
      <Grid container justify="center">
@@ -60,8 +60,8 @@ export const Login = () => {
                </a>
              </p>
              <p>or use common test account credentials:</p>
-             <p>Email: alkhovikvlad@gmail.com</p>
-             <p>Password: itkamasutra</p>
+             <p>Email: blablabla</p>
+             <p>Password: ********</p>
            </FormLabel>
            <form onSubmit={formik.handleSubmit}>
              <FormGroup>
